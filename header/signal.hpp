@@ -8,6 +8,7 @@
 #ifndef SIGNAL_HPP_
 #define SIGNAL_HPP_
 
+#include <vector>
 #include <string>
 #include <iosfwd>
 #include <set>
@@ -82,7 +83,23 @@ public:
 	Multiplexor getMultiplexor() const { return multiplexor; }
 	unsigned short getMultiplexedNumber() const { return multiplexNum; }
 	toList getTo() const { return to; }
+	template <typename T> bool getValue( const std::vector<unsigned char> & msg, T & val) const
+	{
+		if(startBit + length > msg.size()*8)
+			return false;
+		unsigned int raw;
+		// if(order == MOTOROLA)
+		{
+			for(unsigned short len = 0; len < length; len ++)
+			{
+				unsigned short bit = startBit + len;
+				raw |= ((msg[bit/8] & (1 << (bit % 8))) >> (bit % 8));
+				raw <<= 1;				
+			}
+		}
 
+		val = raw * factor + offset;
+	}
 };
 
 

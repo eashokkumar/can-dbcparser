@@ -37,10 +37,18 @@ int main(int argc, char* argv[]) {
 		// 		std::cout << "+Multiplexor+" << std::endl;
 		// 	}
 		// };
-		for(auto msg : dbc)
-		{
-			std::cout << msg.second.getName() << "\n";
-		}
+		// for(auto msg : dbc)
+		// {
+		// 	std::cout << msg.second.getName() << "\n";
+		// }
+
+		std::vector<unsigned char> msgdata = {0,0,3,4,5,7,8};
+
+		auto msg = dbc["DAS_control"];
+		auto sig = msg["DAS_setSpeed"];
+		double val;
+		sig.getValue<double>(msgdata, val);
+		std::cout << val << "\n";
 
 		std::cout << std::endl;
 
