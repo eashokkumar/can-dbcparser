@@ -9,7 +9,7 @@
 #define MESSAGE_HPP_
 
 #include <string>
-#include <vector>
+#include <map>
 #include <iosfwd>
 #include <cstdint>
 #include <set>
@@ -21,7 +21,7 @@
  * Data and to iterate over the Signals contained in the Message
  */class Message {
 
-	typedef std::vector<Signal> signals_t;
+	typedef std::map<std::string, Signal> signals_t;
 	//Name of the Message
 	std::string name;
 	//The CAN-ID assigned to this specific Message
@@ -52,7 +52,7 @@ public:
 	 */
 	const_iterator begin() const { return signals.begin(); }
 	const_iterator end() const { return signals.end(); }
-	signals_t::const_reference operator[](std::size_t elem) {
+	Signal & operator[](std::string elem) {
 		return signals[elem];
 	}
 

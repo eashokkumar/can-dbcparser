@@ -40,7 +40,7 @@ std::istream& operator>>(std::istream& in, Message& msg) {
 		Signal sig;
 		in >> sig;
 		if (in) {
-			msg.signals.push_back(sig);
+			msg.signals[sig.getName()] = sig;
 		}
 	}
 
@@ -52,7 +52,7 @@ std::istream& operator>>(std::istream& in, Message& msg) {
 std::set<std::string> Message::getTo() const {
 	std::set<std::string> collection;
 	for (auto sig : signals) {
-		auto toList = sig.getTo();
+		auto toList = sig.second.getTo();
 		collection.insert(toList.begin(), toList.end());
 	}
 	return collection;
