@@ -25,18 +25,23 @@ int main(int argc, char* argv[]) {
 
 	try {
 		DBCIterator dbc(argv[1]);
-		std::cout << dbc[0].getName() << "\n" << dbc[0].getDlc() << " " << dbc[0].getId() << " " << dbc[0].getFrom() << "\n";
-		for(auto sig : dbc[0]) {
-			std::cout << sig.getName() << " " << sig.getUnit() << std::endl;
-			std::cout << sig.getStartbit() << "," << sig.getLength() << std::endl;
-			std::cout << "(" << sig.getFactor() << ", " << sig.getOffset() << ")" << std::endl;
-			std::cout << "[" << sig.getMinimum() << "," << sig.getMaximum() << "]" << std::endl;
-			if (sig.getMultiplexor() == Multiplexor::MULTIPLEXED) {
-				std::cout << "#" << sig.getMultiplexedNumber() << "#" << std::endl;
-			} else if (sig.getMultiplexor() == Multiplexor::MULTIPLEXOR) {
-				std::cout << "+Multiplexor+" << std::endl;
-			}
-		};
+		// std::cout << dbc[0].getName() << "\n" << dbc[0].getDlc() << " " << dbc[0].getId() << " " << dbc[0].getFrom() << "\n";
+		// for(auto sig : dbc[0]) {
+		// 	std::cout << sig.getName() << " " << sig.getUnit() << std::endl;
+		// 	std::cout << sig.getStartbit() << "," << sig.getLength() << std::endl;
+		// 	std::cout << "(" << sig.getFactor() << ", " << sig.getOffset() << ")" << std::endl;
+		// 	std::cout << "[" << sig.getMinimum() << "," << sig.getMaximum() << "]" << std::endl;
+		// 	if (sig.getMultiplexor() == Multiplexor::MULTIPLEXED) {
+		// 		std::cout << "#" << sig.getMultiplexedNumber() << "#" << std::endl;
+		// 	} else if (sig.getMultiplexor() == Multiplexor::MULTIPLEXOR) {
+		// 		std::cout << "+Multiplexor+" << std::endl;
+		// 	}
+		// };
+		for(auto msg : dbc)
+		{
+			std::cout << msg.second.getName() << "\n";
+		}
+
 		std::cout << std::endl;
 
 		//

@@ -27,7 +27,7 @@ DBCIterator::DBCIterator(std::istream& stream) {
 
 void DBCIterator::init(std::istream& stream) {
 	messageList.clear();
-	std::vector<Message> messages;
+	std::map<std::string, Message> messages;
 	do {
 		Message msg;
 		stream >> msg;
@@ -35,10 +35,10 @@ void DBCIterator::init(std::istream& stream) {
 			stream.clear();
 			stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		} else {
-			messages.push_back(msg);
+			messages[msg.getName()] = msg;
 		}
 	} while (!stream.eof());
-	messageList.insert(messageList.begin(), messages.begin(), messages.end());
+	messageList.insert(messages.begin(), messages.end());
 }
 
 

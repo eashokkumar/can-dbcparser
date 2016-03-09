@@ -9,6 +9,7 @@
 #define DBCTREE_HPP_
 
 #include <vector>
+#include <map>
 #include <iosfwd>
 #include "message.hpp"
 
@@ -19,7 +20,7 @@
 
 class DBCIterator {
 
-	typedef std::vector<Message> messages_t;
+	typedef std::map<std::string, Message> messages_t;
 	//This list contains all the messages which got parsed from the DBC-File
 	messages_t messageList;
 
@@ -37,8 +38,11 @@ public:
 	 */
 	const_iterator begin() const { return messageList.begin(); }
 	const_iterator end() const { return messageList.end(); }
-	messages_t::const_reference operator[](std::size_t elem) const {
-		return messageList[elem];
+	Message operator[](const std::string msgname) {
+		return messageList[msgname];
+
+
+
 	}
 
 private:
