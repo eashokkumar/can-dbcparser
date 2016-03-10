@@ -25,27 +25,27 @@ int main(int argc, char* argv[]) {
 
 	try {
 		DBCIterator dbc(argv[1]);
-		// std::cout << dbc[0].getName() << "\n" << dbc[0].getDlc() << " " << dbc[0].getId() << " " << dbc[0].getFrom() << "\n";
-		// for(auto sig : dbc[0]) {
-		// 	std::cout << sig.getName() << " " << sig.getUnit() << std::endl;
-		// 	std::cout << sig.getStartbit() << "," << sig.getLength() << std::endl;
-		// 	std::cout << "(" << sig.getFactor() << ", " << sig.getOffset() << ")" << std::endl;
-		// 	std::cout << "[" << sig.getMinimum() << "," << sig.getMaximum() << "]" << std::endl;
-		// 	if (sig.getMultiplexor() == Multiplexor::MULTIPLEXED) {
-		// 		std::cout << "#" << sig.getMultiplexedNumber() << "#" << std::endl;
-		// 	} else if (sig.getMultiplexor() == Multiplexor::MULTIPLEXOR) {
-		// 		std::cout << "+Multiplexor+" << std::endl;
-		// 	}
-		// };
-		// for(auto msg : dbc)
-		// {
-		// 	std::cout << msg.second.getName() << "\n";
-		// }
+//		 std::cout << dbc[0].getName() << "\n" << dbc[0].getDlc() << " " << dbc[0].getId() << " " << dbc[0].getFrom() << "\n";
+//		 for(auto sig : dbc[0]) {
+//		 	std::cout << sig.second.getName() << " " << sig.second.getUnit() << std::endl;
+//		 	std::cout << sig.second.getStartbit() << "," << sig.second.getLength() << std::endl;
+//		 	std::cout << "(" << sig.second.getFactor() << ", " << sig.second.getOffset() << ")" << std::endl;
+//		 	std::cout << "[" << sig.second.getMinimum() << "," << sig.second.getMaximum() << "]" << std::endl;
+//		 	if (sig.second.getMultiplexor() == Multiplexor::MULTIPLEXED) {
+//		 		std::cout << "#" << sig.second.getMultiplexedNumber() << "#" << std::endl;
+//		 	} else if (sig.second.getMultiplexor() == Multiplexor::MULTIPLEXOR) {
+//		 		std::cout << "+Multiplexor+" << std::endl;
+//		 	}
+//		 };
+//		 for(auto msg : dbc)
+//		 {
+//		 	std::cout << msg.second.getName() << "\n";
+//		 }
 
-		std::vector<unsigned char> msgdata = {0,0,3,4,5,7,8};
+		std::vector<unsigned char> msgdata = {0x3F, 0x9F, 0x46, 0xB0, };
 
-		auto msg = dbc["DAS_control"];
-		auto sig = msg["DAS_setSpeed"];
+		auto msg = dbc["DAS_steeringControl"];
+		auto sig = msg["DAS_steeringAngleRequest"];
 		double val;
 		sig.getValue<double>(msgdata, val);
 		std::cout << val << "\n";

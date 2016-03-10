@@ -11,6 +11,8 @@
 #include <vector>
 #include <map>
 #include <iosfwd>
+#include <cstdint>
+
 #include "message.hpp"
 
 /**
@@ -20,9 +22,12 @@
 
 class DBCIterator {
 
-	typedef std::map<std::string, Message> messages_t;
+	typedef std::map<unsigned int, Message> messages_t;
+
 	//This list contains all the messages which got parsed from the DBC-File
 	messages_t messageList;
+
+	std::map<std::string, unsigned int> messageIDs;
 
 public:
 	typedef messages_t::const_iterator const_iterator;
@@ -39,10 +44,11 @@ public:
 	const_iterator begin() const { return messageList.begin(); }
 	const_iterator end() const { return messageList.end(); }
 	Message operator[](const std::string msgname) {
-		return messageList[msgname];
+		return messageList[messageIDs.at(msgname)];
+	}
 
-
-
+	Message operator[](const unsigned int msgid) {
+		return messageList.at(msgid);
 	}
 
 private:

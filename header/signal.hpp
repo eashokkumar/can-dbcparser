@@ -12,6 +12,7 @@
 #include <string>
 #include <iosfwd>
 #include <set>
+#include <iostream>
 
 enum class ByteOrder {
 	MOTOROLA,
@@ -87,18 +88,59 @@ public:
 	{
 		if(startBit + length > msg.size()*8)
 			return false;
-		unsigned int raw;
-		// if(order == MOTOROLA)
+		unsigned int raw = 0;
+		if(order == ByteOrder::INTEL)
 		{
-			for(unsigned short len = 0; len < length; len ++)
+			for(unsigned short len = length; len > 0; len--)
 			{
-				unsigned short bit = startBit + len;
-				raw |= ((msg[bit/8] & (1 << (bit % 8))) >> (bit % 8));
+				unsigned short bit = startBit + len - 1;
+				unsigned char byte = msg[bit/8];
+				unsigned short shift = bit%8;
+				unsigned char mask = 1 << shift;
+				raw |= ((byte & mask) >> shift);
 				raw <<= 1;				
+			}
+			raw >>= 1;
+
+			if(sign == Sign::SIGNED)
+			{
+				std::cerr << "Signed signals not implemented yet!";
+			}
+		}
+		else
+		{
+			for(unsigned short len = 0; len < length; len++)
+			{
+				unsigned short bit = (startBit/8)*8 + (7 - startBit%8) + len;
+				unsigned char byte = reverse(msg[bit/8]);
+				unsigned short shift = bit%8;
+				unsigned char mask = 1 << shift;
+				raw |= ((byte & mask) >> shift);
+				raw <<= 1;
+			}
+			raw >>= 1;
+
+			if(sign == Sign::SIGNED)
+			{
+				std::cerr << "Signed signals not implemented yet!";
 			}
 		}
 
+		std::cout << raw << "\n";
+
 		val = raw * factor + offset;
+
+		return true;
+	}
+
+private:
+	unsigned char reverse(const unsigned char in) const
+	{
+		unsigned char b = in;
+		b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+		b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+		b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+		return b;
 	}
 };
 

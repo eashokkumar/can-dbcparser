@@ -1,8 +1,13 @@
 # VariantDir('build', 'src', duplicate=0)
 env = Environment()
 
+debug = ARGUMENTS.get('debug', 0)
+
 env.Append(CCFLAGS = ['--std=c++11'])
 
+if debug:
+	env.Append(CCFLAGS = ['-O0', '-g3'])
+	
 include_dirs = Dir('..')
 
 include_files = Glob('header/*.hpp')
